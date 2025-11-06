@@ -19,35 +19,26 @@
 // };
 
 // export default api;
-
+// src/api/client.js
 import { API_BASE_URL } from '../utils/constants';
 
 const api = async (endpoint, options = {}) => {
-  const url = `${API_BASE_URL}/api${endpoint}`;
+  const url = `${API_BASE_URL}/api${endpoint}`; // ✅ adds /api automatically
 
-  const defaultHeaders = {
-    'Content-Type': 'application/json',
-  };
-
-  const config = {
-    headers: { ...defaultHeaders, ...(options.headers || {}) },
+  const response = await fetch(url, {
     ...options,
-  };
+    headers: {
+      'Content-Type': 'application/json',
+      ...(options.headers || {}),
+    },
+  });
 
-  try {
-    const response = await fetch(url, config);
-
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.message || `API Error: ${response.status}`);
-    }
-
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error('API request failed:', error);
-    throw error;
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.message || `API Error: ${response.status}`);
   }
+
+  return response.json();
 };
 
 export default api;
