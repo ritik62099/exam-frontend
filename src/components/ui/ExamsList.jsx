@@ -174,7 +174,7 @@ const ExamsList = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this exam?')) {
       try {
-        const response = await fetch(`http://localhost:5000/api/exams/${id}`, {
+        const response = await fetch(`https://exam-api-1kyg.onrender.com/api/exams/${id}`, {
           method: 'DELETE'
         });
         if (response.ok) {
@@ -192,7 +192,7 @@ const ExamsList = () => {
   const handlePublish = async (id) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/api/exams/${id}/publish`, {
+      const response = await fetch(`https://exam-api-1kyg.onrender.com/api/exams/${id}/publish`, {
         method: 'PATCH',
         headers: { 
           'Authorization': token,
@@ -212,7 +212,7 @@ const ExamsList = () => {
   const handleUnpublish = async (id) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/api/exams/${id}/unpublish`, {
+      const response = await fetch(`https://exam-api-1kyg.onrender.com/api/exams/${id}/unpublish`, {
         method: 'PATCH',
         headers: { 
           'Authorization': token,
