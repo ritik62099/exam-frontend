@@ -13,90 +13,96 @@ const Login = () => {
 
   return (
     <div className="login-container">
-      <style>{`
+      <style jsx>{`
         .login-container {
           display: flex;
           justify-content: center;
           align-items: center;
-          height: 100vh;
-          background: linear-gradient(135deg, #6a11cb, #2575fc);
-          font-family: 'Poppins', sans-serif;
+          min-height: 100vh;
+          background: linear-gradient(135deg, #f5f7fa 0%, #e4edf9 100%);
+          padding: 16px;
+          box-sizing: border-box;
         }
 
         .login-card {
-          background: #fff;
-          padding: 2rem 2.5rem;
-          border-radius: 1rem;
-          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+          background: white;
+          padding: 32px;
+          border-radius: 12px;
+          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
           width: 100%;
-          max-width: 400px;
-          text-align: center;
-          animation: fadeIn 0.5s ease-in-out;
+          max-width: 420px;
+          box-sizing: border-box;
         }
 
-        h2 {
-          margin-bottom: 1.5rem;
-          color: #333;
+        .login-card h2 {
+          text-align: center;
+          margin-bottom: 24px;
+          font-size: 24px;
+          color: #2c3e50;
+          font-weight: 600;
         }
 
         .form-group {
-          margin-bottom: 1.2rem;
+          margin-bottom: 18px;
         }
 
-        input {
+        .form-group input {
           width: 100%;
-          padding: 0.8rem;
-          border: 1px solid #ccc;
-          border-radius: 0.5rem;
-          font-size: 1rem;
-          transition: border 0.3s ease;
+          padding: 12px 16px;
+          border: 1px solid #dce2ec;
+          border-radius: 8px;
+          font-size: 16px;
+          transition: border-color 0.3s, box-shadow 0.3s;
+          box-sizing: border-box;
         }
 
-        input:focus {
-          border-color: #2575fc;
+        .form-group input:focus {
           outline: none;
-          box-shadow: 0 0 4px rgba(37, 117, 252, 0.3);
+          border-color: #3498db;
+          box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.15);
+        }
+
+        .error {
+          color: #e74c3c;
+          font-size: 14px;
+          margin-bottom: 16px;
+          text-align: center;
+          background: #fdf2f2;
+          padding: 8px;
+          border-radius: 6px;
+          border: 1px solid #fecaca;
         }
 
         .btn {
           width: 100%;
-          padding: 0.9rem;
-          background: #2575fc;
+          padding: 12px;
+          background: #3498db;
           color: white;
           border: none;
-          border-radius: 0.5rem;
+          border-radius: 8px;
+          font-size: 16px;
+          font-weight: 600;
           cursor: pointer;
-          font-size: 1rem;
-          transition: background 0.3s ease;
+          transition: background 0.3s;
         }
 
-        .btn:hover {
-          background: #1a5edb;
+        .btn:hover:not(:disabled) {
+          background: #2980b9;
         }
 
         .btn:disabled {
-          background: #aaa;
+          background: #bdc3c7;
           cursor: not-allowed;
         }
 
-        .error {
-          color: red;
-          margin-bottom: 1rem;
-          font-size: 0.9rem;
-        }
-
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(-10px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-
+        /* Responsive adjustments */
         @media (max-width: 480px) {
           .login-card {
-            padding: 1.5rem;
+            padding: 24px;
           }
 
-          input, .btn {
-            font-size: 0.9rem;
+          .login-card h2 {
+            font-size: 22px;
           }
         }
       `}</style>
