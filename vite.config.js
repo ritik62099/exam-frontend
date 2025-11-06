@@ -10,7 +10,7 @@ export default defineConfig({
     proxy: {
       '/api': {
         // target: 'http://localhost:5000', // आपका backend port
-        target: 'https://exam-api-1kyg.onrender.com/', // आपका backend port
+        target: 'https://exam-api-1kyg.onrender.com', // आपका backend port
         changeOrigin: true,
         secure: false
       }
