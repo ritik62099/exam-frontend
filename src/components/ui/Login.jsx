@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useLogin } from '../../hooks/useLogin';
+import Logo from '../../assets/logo.png';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -32,6 +33,13 @@ const Login = () => {
           width: 100%;
           max-width: 420px;
           box-sizing: border-box;
+          text-align: center;
+        }
+
+        .logo {
+          width: 80px; /* Slightly larger as per your preference */
+          height: auto;
+          margin-bottom: 16px;
         }
 
         .login-card h2 {
@@ -44,6 +52,7 @@ const Login = () => {
 
         .form-group {
           margin-bottom: 18px;
+          text-align: left;
         }
 
         .form-group input {
@@ -101,6 +110,10 @@ const Login = () => {
             padding: 24px;
           }
 
+          .logo {
+            width: 70px;
+          }
+
           .login-card h2 {
             font-size: 22px;
           }
@@ -108,6 +121,7 @@ const Login = () => {
       `}</style>
 
       <div className="login-card">
+        <img src={Logo} alt="Exam System Logo" className="logo" />
         <h2>Exam System Login</h2>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
