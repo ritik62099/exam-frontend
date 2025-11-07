@@ -20,6 +20,7 @@ const ExamAttemptForm = () => {
     const fetchExam = async () => {
       try {
         const data = await api(`/exams/${id}`, { method: 'GET' });
+         console.log('Fetched exam data:', data); 
         if (data.success) {
           setExam(data.exam);
           setAnswers(Array(data.exam.questions.length).fill(null));

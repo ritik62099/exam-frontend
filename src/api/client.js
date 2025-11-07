@@ -24,11 +24,18 @@ import { API_BASE_URL } from '../utils/constants';
 
 const api = async (endpoint, options = {}) => {
   const url = `${API_BASE_URL}/api${endpoint}`; // ✅ adds /api automatically
+  const token = localStorage.getItem('token');
 
   const response = await fetch(url, {
     ...options,
-    headers: {
+    // headers: {
+    //   'Content-Type': 'application/json',
+    //   ...(options.headers || {}),
+    // },
+
+     headers: {
       'Content-Type': 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...(options.headers || {}),
     },
   });

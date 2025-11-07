@@ -330,14 +330,19 @@ const ExamsList = () => {
                   <tr key={exam._id}>
                     <td>{exam.title}</td>
                     <td>
-                      {new Date(exam.scheduledAt).toLocaleString('en-GB', {
-                        day: '2-digit',
-                        month: '2-digit',
-                        year: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit'
-                      })}
-                    </td>
+  {(() => {
+    const date = new Date(exam.scheduledAt);
+    const localDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+    return localDate.toLocaleString('en-GB', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  })()}
+</td>
+
                     <td>{exam.timeLimit}</td>
                     <td>{exam.questions?.length || 0}</td>
                     <td>
