@@ -31,7 +31,7 @@ const AdminResultsList = () => {
     // ✅ Get token from localStorage (set during login)
     const token = localStorage.getItem('token');
 
-    const response = await fetch('http://localhost:5000/api/exams/results', {
+    const response = await fetch('https://exam-api-1kyg.onrender.com/api/exams/results', {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -44,7 +44,7 @@ const AdminResultsList = () => {
       alert('Result deleted. Student can now re-attempt the exam.');
       
       // ✅ Also send token in GET request
-      const getResponse = await fetch('http://localhost:5000/api/exams/results', {
+      const getResponse = await fetch('https://exam-api-1kyg.onrender.com/api/exams/results', {
         headers: { 'Authorization': token }
       });
       const data = await getResponse.json();
