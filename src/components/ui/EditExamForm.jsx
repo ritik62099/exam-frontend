@@ -25,7 +25,13 @@ const EditExamForm = () => {
   useEffect(() => {
     const fetchExam = async () => {
       try {
-        const res = await fetch(`https://exam-api-1kyg.onrender.com/api/exams/${id}`);
+        const token = localStorage.getItem('token');
+const res = await fetch(`https://exam-api-1kyg.onrender.com/api/exams/${id}`, {
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+});
+
         const contentType = res.headers.get('content-type');
         if (!contentType || !contentType.includes('application/json')) {
           throw new Error('Exam not found or server error');
@@ -124,11 +130,17 @@ const EditExamForm = () => {
         }))
       };
 
-      const res = await fetch(`https://exam-api-1kyg.onrender.com/api/exams/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(examData)
-      });
+      const token = localStorage.getItem('token');
+
+const res = await fetch(`https://exam-api-1kyg.onrender.com/api/exams/${id}`, {
+  method: 'PUT',
+  headers: {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${token}`, // ✅ Added
+  },
+  body: JSON.stringify(examData),
+});
+
 
       if (res.ok) {
         alert('Exam updated successfully!');

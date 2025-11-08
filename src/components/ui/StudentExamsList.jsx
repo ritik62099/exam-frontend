@@ -12,14 +12,36 @@ const StudentExamsList = () => {
 
   // 🔹 Fetch attempted exams
   const fetchAttemptedExams = async () => {
-    try {
-      const results = await api(`/exams/results/${user.username}`, { method: 'GET' });
-      const examIds = new Set(results.results?.map(r => r.examId._id || r.examId) || []);
-      setAttemptedExams(examIds);
-    } catch (err) {
-      console.error('Failed to load attempted exams');
+  try {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      console.warn('⚠️ No token found in localStorage');
+      return;
     }
-  };
+
+    const res = await fetch(`https://exam-api-1kyg.onrender.com/api/exams/results/${user.username}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`, // ✅ include Bearer prefix
+      },
+    });
+
+    if (!res.ok) {
+      console.error('❌ Failed to fetch results:', res.status);
+      return;
+    }
+
+    const results = await res.json(); // ✅ parse JSON properly
+    const validResults = (results.results || []).filter(r => r.examId); // ✅ filter out null exams
+const examIds = new Set(validResults.map(r => r.examId._id || r.examId));
+
+    setAttemptedExams(examIds);
+  } catch (err) {
+    console.error('Failed to load attempted exams:', err.message);
+  }
+};
+
 
   // 🔹 Initial load
   useEffect(() => {
@@ -57,7 +79,7 @@ const StudentExamsList = () => {
                 <h3>{exam.title}</h3>
                 <p>Time: {exam.timeLimit} minutes</p>
                 <p>Questions: {exam.questions?.length || 0}</p>
-                
+
                 {isAttempted ? (
                   <span style={{
                     padding: '0.5rem 1rem',

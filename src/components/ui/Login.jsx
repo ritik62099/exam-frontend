@@ -13,7 +13,7 @@ const Login = () => {
 
   return (
     <div className="login-container">
-      <style jsx>{`
+      <style>{`
         .login-container {
           display: flex;
           justify-content: center;

@@ -2,51 +2,56 @@ import { useEffect, useState } from 'react';
 import api from '../../api/client';
 
 const AdminResultsList = () => {
-    const [results, setResults] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [search, setSearch] = useState('');
+  const [results, setResults] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState('');
 
-    useEffect(() => {
-        const fetchAllResults = async () => {
-            try {
-                const data = await api('/exams/results', { method: 'GET' });
-                setResults(data.results || []);
-            } catch (err) {
-                console.error('Fetch results error:', err);
-            } finally {
-                setLoading(false);
-            }
-        };
+  useEffect(() => {
+    const fetchAllResults = async () => {
+      try {
+        const data = await api('/exams/results', { method: 'GET' });
+        setResults(data.results || []);
+      } catch (err) {
+        console.error('Fetch results error:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-        fetchAllResults();
-    }, []);
+    fetchAllResults();
+  }, []);
 
-    // 🔹 Re-attempt function
-    const handleReattempt = async (examId, studentUsername) => {
-  if (!window.confirm(`Are you sure you want to allow ${studentUsername} to re-attempt this exam? Their current result will be deleted.`)) {
+  // 🔹 Re-attempt function
+  const handleReattempt = async (examId, studentUsername) => {
+  if (
+    !window.confirm(
+      `Are you sure you want to allow ${studentUsername} to re-attempt this exam? Their current result will be deleted.`
+    )
+  ) {
     return;
   }
 
   try {
-    // ✅ Get token from localStorage (set during login)
     const token = localStorage.getItem('token');
 
+    // ✅ Include Bearer in Authorization header
     const response = await fetch('https://exam-api-1kyg.onrender.com/api/exams/results', {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': token // ✅ Critical: Send token
+        Authorization: `Bearer ${token}`, // ✅ FIXED
       },
-      body: JSON.stringify({ examId, studentUsername })
+      body: JSON.stringify({ examId, studentUsername }),
     });
 
     if (response.ok) {
       alert('Result deleted. Student can now re-attempt the exam.');
-      
-      // ✅ Also send token in GET request
+
+      // ✅ Fetch updated results with Bearer header
       const getResponse = await fetch('https://exam-api-1kyg.onrender.com/api/exams/results', {
-        headers: { 'Authorization': token }
+        headers: { Authorization: `Bearer ${token}` }, // ✅ FIXED
       });
+
       const data = await getResponse.json();
       setResults(data.results || []);
     } else {
@@ -58,15 +63,16 @@ const AdminResultsList = () => {
   }
 };
 
-    const filteredResults = results.filter(result =>
-        result.studentUsername.toLowerCase().includes(search.toLowerCase())
-    );
 
-    if (loading) return <div style={{ padding: '2rem' }}>Loading results...</div>;
+  const filteredResults = results.filter(result =>
+    result.studentUsername.toLowerCase().includes(search.toLowerCase())
+  );
 
-    return (
-        <>
-            <style>{`
+  if (loading) return <div style={{ padding: '2rem' }}>Loading results...</div>;
+
+  return (
+    <>
+      <style>{`
         .results-page { padding: 1.5rem; }
         .search-box { margin-bottom: 1.5rem; }
         .search-box input {
@@ -111,55 +117,55 @@ const AdminResultsList = () => {
         }
       `}</style>
 
-            <div className="results-page">
-                <h2>All Results</h2>
-                <div className="search-box">
-                    <input
-                        type="text"
-                        placeholder="Search by student username..."
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                    />
-                </div>
+      <div className="results-page">
+        <h2>All Results</h2>
+        <div className="search-box">
+          <input
+            type="text"
+            placeholder="Search by student username..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
 
-                {filteredResults.length === 0 ? (
-                    <p>No results found.</p>
-                ) : (
-                    <table className="results-table">
-  <thead>
-    <tr>
-      <th>Student</th>
-      <th>Exam</th>
-      <th>Score</th>
-      <th>Percentage</th>
-      <th>Submitted At</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    {filteredResults.map(result => (
-      <tr key={result._id}>
-        <td>{result.studentUsername}</td>
-        <td>{result.examId?.title || 'N/A'}</td>
-        <td>{result.score} / {result.totalMarks}</td>
-        <td>{((result.score / result.totalMarks) * 100).toFixed(2)}%</td>
-        <td>{new Date(result.submittedAt).toLocaleString('en-GB')}</td>
-        <td className="actions-cell">
-          <button
-            className="action-btn reattempt-btn"
-            onClick={() => handleReattempt(result.examId?._id || result.examId, result.studentUsername)}
-          >
-            Re-attempt
-          </button>
-        </td>
-      </tr>
-    ))}
-  </tbody>
-</table>
-                )}
-            </div>
-        </>
-    );
+        {filteredResults.length === 0 ? (
+          <p>No results found.</p>
+        ) : (
+          <table className="results-table">
+            <thead>
+              <tr>
+                <th>Student</th>
+                <th>Exam</th>
+                <th>Score</th>
+                <th>Percentage</th>
+                <th>Submitted At</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredResults.map(result => (
+                <tr key={result._id}>
+                  <td>{result.studentUsername}</td>
+                  <td>{result.examId?.title || 'N/A'}</td>
+                  <td>{result.score} / {result.totalMarks}</td>
+                  <td>{((result.score / result.totalMarks) * 100).toFixed(2)}%</td>
+                  <td>{new Date(result.submittedAt).toLocaleString('en-GB')}</td>
+                  <td className="actions-cell">
+                    <button
+                      className="action-btn reattempt-btn"
+                      onClick={() => handleReattempt(result.examId?._id || result.examId, result.studentUsername)}
+                    >
+                      Re-attempt
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </div>
+    </>
+  );
 };
 
 export default AdminResultsList;

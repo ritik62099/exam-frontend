@@ -110,53 +110,32 @@ const AdminDashboard = () => {
         {fetching ? (
           <p>Loading students...</p>
         ) : (
-          // <table className="students-table">
-          //   <thead>
-          //     <tr>
-          //       <th>Username</th>
-          //       <th>Password</th>
-          //     </tr>
-          //   </thead>
-          //   <tbody>
-          //     {students.length === 0 ? (
-          //       <tr>
-          //         <td colSpan="2" style={{ textAlign: 'center' }}>No students found</td>
-          //       </tr>
-          //     ) : (
-          //       students.map((student, index) => (
-          //         <tr key={index}>
-          //           <td>{student.username}</td>
-          //           <td>{student.plainPassword || '—'}</td>
-          //         </tr>
-          //       ))
-          //     )}
-          //   </tbody>
-          // </table>
-          <table className="students-table">
-  <thead>
-  <tr>
-    <th>Reg. Number</th>
-    <th>Username</th>
-    <th>Password</th>
-  </tr>
-</thead>
-<tbody>
-  {students.length === 0 ? (
-    <tr>
-      <td colSpan="3" style={{ textAlign: 'center' }}>No students found</td>
-    </tr>
-  ) : (
-    students.map((student, index) => (
-      <tr key={index}>
-        <td>{student.registrationNumber}</td>
-        <td>{student.username}</td>
-        <td>{student.plainPassword || '—'}</td>
-      </tr>
-    ))
-  )}
-</tbody>
 
-</table>
+          <table className="students-table">
+            <thead>
+              <tr>
+                <th>Reg. Number</th>
+                <th>Username</th>
+                <th>Password</th>
+              </tr>
+            </thead>
+            <tbody>
+              {students.length === 0 ? (
+                <tr>
+                  <td colSpan="3" style={{ textAlign: 'center' }}>No students found</td>
+                </tr>
+              ) : (
+                students.map((student, index) => (
+                  <tr key={index}>
+                    <td>{student.registrationNumber}</td>
+                    <td>{student.username}</td>
+                    <td>{student.plainPassword || '—'}</td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+
+          </table>
 
         )}
       </div>
