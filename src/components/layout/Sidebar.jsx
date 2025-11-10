@@ -18,7 +18,7 @@ const Sidebar = () => {
     user?.role === 'admin'
       ? [
           { label: 'Users', path: '/admin' },
-          { label: 'Add Student', path: '/admin/add-student' },
+          // { label: 'Add Student', path: '/admin/add-student' },
           { label: 'Exams', path: '/admin/exams' },
           { label: 'Create Exam', path: '/admin/create-exam' },
           { label: 'Results', path: '/admin/results' },

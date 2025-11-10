@@ -184,12 +184,18 @@ const StudentResultsList = () => {
           border-radius: 6px;
         }
 
-        .option.correct { background: #c6f6d5; }
-        .option.selected { background: #bee3f8; }
-        .option.correct.selected {
-          background: #9ae6b4;
-          border: 2px solid #2f855a;
-        }
+        .option.correct { background: #c6f6d5; } /* green */
+.option.wrong { background: #fed7d7; } /* light red */
+.option.selected { background: #bee3f8; }
+.option.correct.selected {
+  background: #9ae6b4;
+  border: 2px solid #2f855a;
+}
+.option.wrong.selected {
+  background: #feb2b2;
+  border: 2px solid #c53030;
+}
+
 
         @media (max-width: 768px) {
           .results-container {
@@ -277,17 +283,18 @@ const StudentResultsList = () => {
                         {q.options.map((opt, oIdx) => {
                           const isCorrect = oIdx === q.correctAnswerIndex;
                           const isSelected = ans?.selectedOption === oIdx;
+                          const isWrong = isSelected && !isCorrect; // ✅ mark wrong answers
+
                           return (
                             <div
                               key={oIdx}
-                              className={`option ${isCorrect ? "correct" : ""} ${
-                                isSelected ? "selected" : ""
-                              }`}
+                              className={`option ${isCorrect ? "correct" : ""} ${isSelected ? "selected" : ""} ${isWrong ? "wrong" : ""}`}
                             >
                               {String.fromCharCode(65 + oIdx)}. {opt}
                             </div>
                           );
                         })}
+
                       </div>
                     );
                   })}
