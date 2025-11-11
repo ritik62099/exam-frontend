@@ -82,66 +82,132 @@ const AdminDashboard = () => {
 
   return (
     <>
-      <style>{/* keep your styles, plus small additions for modal/buttons */}
-        {`
-          .dashboard-section {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            margin-bottom: 1.5rem;
-          }
-          .form-row {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1rem;
-            align-items: center;
-          }
-          .form-row input {
-            flex: 1;
-            padding: 0.75rem;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 1rem;
-          }
-          .btn {
-            padding: 0.75rem 1.5rem;
-            background: #4a6cf7;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 1rem;
-          }
-          .btn:disabled {
-            background: #cccccc;
-            cursor: not-allowed;
-          }
-          .students-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 1rem;
-          }
-          .students-table th,
-          .students-table td {
-            padding: 0.75rem;
-            text-align: left;
-            border-bottom: 1px solid #eee;
-          }
-          .students-table th {
-            background: #f8fafc;
-            font-weight: 600;
-          }
-          .error { color: #e53e3e; margin: 0.5rem 0; }
-          .success { color: #38a169; margin: 0.5rem 0; }
-          .small-btn { padding: 0.35rem 0.6rem; font-size: 0.9rem; border-radius: 6px; cursor: pointer; border: none; }
-          .edit-btn { background: #4a90f2; color: white; }
-          .delete-btn { background: #e53e3e; color: white; }
-          /* modal simple */
-          .modal { position: fixed; inset: 0; display:flex; align-items:center; justify-content:center; background: rgba(0,0,0,0.5); z-index:1000; }
-          .modal-content { background:white; padding:1rem; border-radius:8px; width: 90%; max-width: 480px; box-shadow: 0 6px 20px rgba(0,0,0,0.2); }
-        `}
-      </style>
+     <style>
+{`
+  .dashboard-section {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    margin-bottom: 1.5rem;
+  }
+  .form-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    align-items: center;
+  }
+  .form-row input {
+    flex: 1;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+  }
+  .btn {
+    padding: 0.75rem 1.5rem;
+    background: #4a6cf7;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  .btn:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+  }
+  .students-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+  }
+  .students-table th,
+  .students-table td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+  }
+  .students-table th {
+    background: #f8fafc;
+    font-weight: 600;
+  }
+  .error { color: #e53e3e; margin: 0.5rem 0; }
+  .success { color: #38a169; margin: 0.5rem 0; }
+  .small-btn { padding: 0.35rem 0.6rem; font-size: 0.9rem; border-radius: 6px; cursor: pointer; border: none; }
+  .edit-btn { background: #4a90f2; color: white; }
+  .delete-btn { background: #e53e3e; color: white; }
+  /* modal */
+  .modal { position: fixed; inset: 0; display:flex; align-items:center; justify-content:center; background: rgba(0,0,0,0.5); z-index:1000; padding:1rem; }
+  .modal-content { background:white; padding:1rem; border-radius:8px; width: 100%; max-width: 480px; box-shadow: 0 6px 20px rgba(0,0,0,0.2); }
+
+  /* ✅ RESPONSIVE ADJUSTMENTS */
+  @media (max-width: 768px) {
+    .form-row {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .form-row input,
+    .form-row button {
+      width: 100%;
+    }
+
+    .students-table {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+      border: 1px solid #eee;
+      border-radius: 6px;
+    }
+
+    .students-table th, .students-table td {
+      padding: 0.6rem;
+      font-size: 0.9rem;
+    }
+
+    .dashboard-section {
+      padding: 1rem;
+    }
+
+    h2 {
+      font-size: 1.2rem;
+    }
+
+    .small-btn {
+      padding: 0.4rem 0.7rem;
+      font-size: 0.85rem;
+    }
+
+    .modal-content {
+      width: 95%;
+      padding: 1rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .btn {
+      font-size: 0.9rem;
+      padding: 0.6rem 1.2rem;
+    }
+
+    .students-table th,
+    .students-table td {
+      font-size: 0.85rem;
+      padding: 0.5rem;
+    }
+
+    h2 {
+      font-size: 1rem;
+    }
+
+    .modal-content {
+      width: 100%;
+    }
+  }
+`}
+</style>
+
 
       <div className="dashboard-section">
         <h2>Add New Student</h2>
